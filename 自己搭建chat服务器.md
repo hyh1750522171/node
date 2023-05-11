@@ -3,6 +3,7 @@
 ### 购买云服务器
 
 最近发现了一个可以白嫖域名和证书的网站
+
 https://www.rainyun.com/Mzk2NDM=_
 
 [共建智能世界云底座-华为云 (huaweicloud.com)](https://www.huaweicloud.com/)
