@@ -172,17 +172,9 @@ docker run -d \
 
 
 
-### frp docker
+### frp docker 
 
-frp-restart.sh
-
-```bash
-NAME=frps
-IMAGE=snowdreamtech/frps
-docker rm -f $NAME
-docker run --restart=on-failure:3 --network host -v /opt/frp/frps.ini:/etc/frp/frps.ini -d --name $NAME $IMAGE
-
-```
+frp server 使用 1panal面板应用商店直接安装
 
 配置文件
 
@@ -212,6 +204,41 @@ token=123123123
 max_pool_count = 5
 max_ports_per_client = 0
 ```
+
+frp 客户端  
+
+配置
+
+```bash
+ cat /opt/frpc/frpc.toml
+[common]
+server_addr=124.xx.xx.xx
+server_port=7000
+token=hxSoC6xxxxxx
+
+[nas-ssh]
+type=tcp
+local_ip=127.0.0.1
+local_port=22
+remote_port=108xx
+
+```
+
+```bash
+docker run --restart=always --network host -d -v /opt/frpc/frpc.toml:/etc/frp/frpc.toml --name frpc snowdreamtech/frpc
+```
+
+直播代录
+
+```bash
+docker run --restart=always --name  bililive-go  -v /opt/bililive/Videos:/srv/bililive -p 8080:8080 -d chigusa/bililive-go
+```
+
+
+
+
+
+
 
 
 
@@ -249,5 +276,14 @@ docker run -d -P --name test_sshd seth0r/ubuntu-sshd:20.04
 docker port test_sshd 22
 # 用户：root 密码：root
 ```
+
+chatgpt 一比一镜像网站
+
+```bash
+docker run -e PANDORA_CLOUD=cloud -e PANDORA_SERVER=0.0.0.0:8899 -p 8899:8899 -d pengzhile/pandora
+```
+
+
+
 
 
