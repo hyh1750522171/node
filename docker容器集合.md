@@ -9,7 +9,7 @@ sudo curl -fsSL get.docker.com  && sudo sh
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["http://hub-mirror.c.163.com"]
+  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/"]
 }
 EOF
 sudo systemctl enable docker
@@ -199,7 +199,7 @@ log_max_days = 2
 # 认证超时时间
 authentication_timeout = 900
 # 认证token，客户端需要和此对应
-token=123123123
+token=drfuco19g1ivt8xxuwg94vd2b14kr6
 # 最大连接数
 max_pool_count = 5
 max_ports_per_client = 0
@@ -212,14 +212,21 @@ frp 客户端
 ```bash
  cat /opt/frpc/frpc.toml
 [common]
+#外网服务器ip地址
 server_addr=124.xx.xx.xx
+#外网服务器服务ip
 server_port=7000
+#外网服务器token验证；和服务token一样
 token=hxSoC6xxxxxx
 
+#名称（创建名称不能重复）
 [nas-ssh]
 type=tcp
+#局域网IP地址
 local_ip=127.0.0.1
+#映射局域网设备端口
 local_port=22
+#映射出去的端口号
 remote_port=108xx
 
 ```
@@ -228,7 +235,7 @@ remote_port=108xx
 docker run --restart=always --network host -d -v /opt/frpc/frpc.toml:/etc/frp/frpc.toml --name frpc snowdreamtech/frpc
 ```
 
-直播代录
+### 直播代录
 
 ```bash
 docker run --restart=always --name  bililive-go  -v /opt/bililive/Videos:/srv/bililive -p 8080:8080 -d chigusa/bililive-go
@@ -236,51 +243,44 @@ docker run --restart=always --name  bililive-go  -v /opt/bililive/Videos:/srv/bi
 
 
 
-
-
-
-
-
-
-docker wechat
-
-```b
-docker run -itd --name wechatbot --restart=always \
- -e APIKEY="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" \
- -e AUTO_PASS=false \
- -e SESSION_TIMEOUT=60s \
- -e MODEL=text-davinci-003 \
- -e MAX_TOKENS=512 \
- -e TEMPREATURE=0.9 \
- -e REPLY_PREFIX="我是来自 ChatGPT 回复:" \
- -e SESSION_CLEAR_TOKEN="下一个问题" \
- docker.mirrors.sjtug.sjtu.edu.cn/qingshui869413421/wechatbot:latest
- 
- 
- # 查看二维码
-$ docker exec -it wechatbot bash 
-$ tail -f -n 50 /app/run.log 
-```
-
-docker 备忘录
+### docker 备忘录
 
 ```bash
 docker run --name reference -itd -p 9667:3000 wcjiang/reference:latest
 ```
 
-docker ubuntu镜像
+### docker ubuntu镜像
 
 ```bash
-docker run -d -P --name test_sshd seth0r/ubuntu-sshd:20.04
+docker run -d -P --name test_sshd -p 9090:22 seth0r/ubuntu-sshd:20.04
 # 查看端口
 docker port test_sshd 22
 # 用户：root 密码：root
 ```
 
-chatgpt 一比一镜像网站
+###  chatgpt 一比一镜像网站
 
 ```bash
 docker run -e PANDORA_CLOUD=cloud -e PANDORA_SERVER=0.0.0.0:8899 -p 8899:8899 -d pengzhile/pandora
+```
+
+## cuda安装
+
+cuda历史版本下载地址
+
+[CUDA Toolkit Archive | NVIDIA Developer](https://developer.nvidia.com/cuda-toolkit-archive)
+
+cudnn历史版本下载地址
+
+[developer.nvidia.com/rdp/cudnn-archive](https://developer.nvidia.com/rdp/cudnn-archive)
+
+编辑 .bashrc
+
+vim ~/.bashrc
+
+```bas
+export PATH=/usr/local/cuda-12.3/bin:${PATH}
+export LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:${LD_LIBRARY_PATH}
 ```
 
 
